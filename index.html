@@ -7,364 +7,208 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="每日计划">
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23f8f7f4'/><text x='50%' y='55%' font-size='50' text-anchor='middle' dominant-baseline='middle' fill='%234a5568'>📋</text></svg>">
-  <link rel="manifest" href="data:application/manifest+json,{ %22name%22: %22每日计划表%22, %22short_name%22: %22计划%22, %22start_url%22: %22.%22, %22display%22: %22standalone%22, %22background_color%22: %22%23f8f7f4%22, %22theme_color%22: %22%234a5568%22, %22icons%22: [ { %22src%22: %22data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23f8f7f4'/><text x='50%' y='55%' font-size='50' text-anchor='middle' dominant-baseline='middle' fill='%234a5568'>📋</text></svg>%22, %22sizes%22: %22100x100%22, %22type%22: %22image/svg+xml%22 } ] }">
-  <title>每日计划表</title>
+  <link rel="manifest" href="data:application/manifest+json,{ %22name%22: %22每日计划%22, %22short_name%22: %22计划%22, %22start_url%22: %22.%22, %22display%22: %22standalone%22, %22background_color%22: %22%23f8f7f4%22, %22theme_color%22: %22%234a5568%22 }">
+  <title>每日计划 · 手机版</title>
   <style>
-    :root {
-      --bg: #f8f7f4;
-      --card-bg: #ffffff;
-      --primary: #4a5568;
-      --accent: #5b7b94;
-      --border: #e2dfda;
-      --text: #2d3436;
-      --morning: #fff9f0;
-      --noon: #fffef5;
-      --afternoon: #fdf6f0;
-      --evening: #f5f6fa;
-      --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.05);
-      --radius: 14px;
-      --radius-sm: 8px;
-      --transition: 0.2s ease;
-      --safe-bottom: env(safe-area-inset-bottom, 16px);
-    }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
       font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
-      padding: 16px 12px 40px;
-      padding-bottom: calc(40px + var(--safe-bottom));
-      line-height: 1.5;
+      background: #f4f3ef;
+      color: #2d3436;
+      padding: 12px 10px 30px;
+      line-height: 1.4;
       -webkit-font-smoothing: antialiased;
     }
-
     .container {
-      width: 100%;
-      max-width: 860px;
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 28px 24px 32px;
-      position: relative;
-      overflow: hidden;
+      max-width: 500px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      padding: 20px 16px 24px;
     }
-
-    .container::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #c9b99a, #b8c9d6 40%, #c9b99a 70%, #b8c9d6);
-      border-radius: 4px 4px 0 0;
-    }
-
     .header {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-bottom: 18px;
       flex-wrap: wrap;
-      gap: 14px;
-      margin-bottom: 26px;
-      padding-bottom: 18px;
-      border-bottom: 1px solid var(--border);
     }
-
-    .title {
-      font-size: 24px;
-      font-weight: 700;
-      color: #3d3a35;
+    .title { font-size: 20px; font-weight: 700; color: #3d3a35; }
+    .date-row {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      background: #f9f8f6;
+      border-radius: 12px;
+      padding: 6px 12px;
+      border: 1px solid #e0dcd2;
     }
-
-    .date-picker-group {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: #faf9f7;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 8px 14px;
-      transition: var(--transition);
-    }
-
-    .date-picker-group:hover {
-      border-color: #c9b99a;
-      box-shadow: 0 0 0 3px rgba(201,185,154,0.1);
-    }
-
-    .date-picker-group label {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text);
-      white-space: nowrap;
-    }
-
     #datePicker {
       border: none;
       background: transparent;
-      font-size: 14px;
+      font-size: 13px;
       font-family: inherit;
-      color: var(--text);
+      color: #2d3436;
       outline: none;
-      padding: 4px 6px;
-      border-radius: 6px;
       font-weight: 500;
-      cursor: pointer;
     }
-
     .today-btn {
       background: transparent;
-      border: 1px solid #d5cfc5;
-      border-radius: 6px;
-      padding: 4px 12px;
-      font-size: 13px;
+      border: 1px solid #ccc;
+      border-radius: 14px;
+      padding: 3px 10px;
+      font-size: 12px;
+      color: #555;
       font-weight: 500;
-      color: #4a4440;
-      cursor: pointer;
-      transition: var(--transition);
-      white-space: nowrap;
     }
 
-    .today-btn:hover {
-      background: #f0ebe3;
-      border-color: #b8a88c;
+    /* 时段卡片 */
+    .period-card {
+      margin-bottom: 14px;
+      border-radius: 14px;
+      background: #fefefb;
+      border: 1px solid #e8e4db;
+      overflow: hidden;
     }
-
-    .table-wrapper {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      margin-bottom: 24px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13.5px;
-      min-width: 700px;
-    }
-
-    thead th {
-      background: #4a4a45;
-      color: #fefefe;
-      font-weight: 600;
-      font-size: 12.5px;
-      letter-spacing: 0.04em;
-      padding: 12px 8px;
-      text-align: center;
-      white-space: nowrap;
-    }
-
-    thead th:first-child { width: 8%; }
-    thead th:nth-child(2) { width: 10%; }
-    thead th:nth-child(3) { width: 44%; text-align: left; padding-left: 14px; }
-    thead th:nth-child(4) { width: 38%; text-align: left; padding-left: 14px; }
-
-    tbody tr { transition: background-color 0.15s; }
-    tbody tr:hover { filter: brightness(0.97); }
-
-    .morning-bg { background: #fefdf9; }
-    .noon-bg { background: #fefef9; }
-    .afternoon-bg { background: #fdfaf7; }
-    .evening-bg { background: #fafafb; }
-
-    td.period-cell {
-      text-align: center;
+    .period-header {
+      background: #f8f6f0;
+      padding: 8px 14px;
       font-weight: 700;
-      font-size: 13.5px;
-      color: #4a4440;
-      padding: 10px 4px;
-      vertical-align: middle;
-      border-right: 2px solid #ece8df;
-    }
-
-    td.type-cell {
-      text-align: center;
-      padding: 8px 4px;
-      vertical-align: middle;
-      border-right: 1px solid #ecece8;
-    }
-
-    .tag {
-      display: inline-block;
-      font-size: 10.5px;
-      font-weight: 600;
-      padding: 2px 10px;
-      border-radius: 20px;
-      white-space: nowrap;
-    }
-    .tag-regular { background: #f0ebe3; color: #6b5e4f; }
-    .tag-extra { background: #e3ecf5; color: #4a637a; }
-
-    td.regular-detail { padding: 6px 10px; vertical-align: top; }
-
-    .project-list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      max-height: 320px;
-      overflow-y: auto;
-      padding-right: 4px;
-    }
-
-    .project-item {
+      font-size: 15px;
       display: flex;
       align-items: center;
       gap: 6px;
-      background: rgba(255,255,255,0.55);
-      border-radius: 6px;
-      padding: 5px 8px;
-      border: 1px solid #ece8e1;
-      transition: var(--transition);
+      border-bottom: 1px solid #e8e4db;
+      color: #4a4440;
+    }
+    .period-header .icon { font-size: 18px; }
+    .regular-list, .extra-item-row {
+      padding: 8px 10px;
+    }
+    .task-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      margin-bottom: 8px;
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 6px 4px;
+      border: 1px solid #f0ede5;
       flex-wrap: wrap;
     }
-    .project-item:hover { background: #fff; border-color: #c9b99a; }
-
-    .project-name {
+    .task-name {
       font-weight: 500;
-      font-size: 13px;
-      color: var(--text);
-      min-width: 72px;
-      white-space: nowrap;
+      font-size: 14px;
+      min-width: 80px;
+      padding: 4px 2px;
+      word-break: keep-all;
+      color: #2d3436;
     }
-
-    .status-toggle {
+    .status-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 28px; height: 28px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       background: #f5f3ef;
       border: 1.5px solid #d5cec2;
-      cursor: pointer;
       font-size: 16px;
+      cursor: pointer;
       user-select: none;
-      transition: all 0.15s;
       flex-shrink: 0;
       color: #b0a797;
     }
-    .status-toggle.done {
+    .status-btn.done {
       background: #e3f0e1;
       border-color: #9abf8c;
       color: #3b6e3b;
     }
-    .status-toggle:hover { background: #e8e2d8; border-color: #b8a88c; }
-    .status-toggle.done:hover { background: #d4ebd0; }
-
-    .improvement-input {
-      flex: 1 1 100px;
-      min-width: 90px;
+    .improve-input {
+      flex: 1 1 120px;
+      min-width: 100px;
       border: 1px solid #e2ded6;
-      border-radius: 4px;
-      padding: 4px 8px;
-      font-size: 12px;
+      border-radius: 8px;
+      padding: 5px 8px;
+      font-size: 13px;
       font-family: inherit;
       background: #fff;
-      color: var(--text);
       outline: none;
-      transition: var(--transition);
+      transition: 0.2s;
+      width: 100%;
+      word-break: break-word;
     }
-    .improvement-input:focus {
+    .improve-input:focus {
       border-color: #b8c9d6;
       box-shadow: 0 0 0 2px rgba(184,201,214,0.15);
     }
-    .improvement-input::placeholder { color: #c2bbb0; font-style: italic; font-size: 11px; }
-
-    td.extra-content, td.extra-summary { padding: 8px 10px; vertical-align: top; }
-    td.extra-content textarea, td.extra-summary textarea {
-      width: 100%;
-      border: 1px solid #e8e4db;
-      border-radius: 6px;
-      background: rgba(255,255,255,0.5);
-      padding: 6px 10px;
-      font-size: 12.5px;
-      font-family: inherit;
-      color: var(--text);
-      resize: vertical;
-      min-height: 42px;
-      outline: none;
-      transition: var(--transition);
+    .improve-input::placeholder {
+      color: #c5bfb5;
+      font-size: 12px;
     }
-    td.extra-content textarea:focus, td.extra-summary textarea:focus {
-      border-color: #c9b99a;
+
+    .extra-task-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      background: #fcfaf8;
+      border-radius: 10px;
+      padding: 6px 4px;
+      border: 1px dashed #d5cfc5;
+      flex-wrap: wrap;
+    }
+    .extra-input {
+      flex: 2;
+      min-width: 120px;
+      border: 1px solid #e2ded6;
+      border-radius: 8px;
+      padding: 5px 8px;
+      font-size: 13px;
       background: #fff;
-      box-shadow: 0 0 0 3px rgba(201,185,154,0.08);
+      outline: none;
+    }
+    .extra-input::placeholder {
+      color: #b0a797;
+      font-style: italic;
     }
 
-    .period-divider td { border-top: 1.5px solid #e8e4db; }
-
-    .bottom-section {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-top: 8px;
+    .summary-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 10px;
     }
-
-    @media (max-width: 640px) {
-      .bottom-section { grid-template-columns: 1fr; }
-    }
-
     .summary-card {
       background: #faf9f7;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 18px 16px;
-      transition: var(--transition);
+      border: 1px solid #e0dcd2;
+      border-radius: 14px;
+      padding: 14px;
     }
-    .summary-card:hover { border-color: #c9b99a; }
-    .summary-card h3 {
+    .summary-card h4 {
       font-size: 14px;
       font-weight: 700;
       color: #4a4440;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      margin-bottom: 6px;
     }
-    .divider-dot { width: 7px; height: 7px; border-radius: 50%; background: #c9b99a; display: inline-block; }
-    .tomorrow-plan .divider-dot { background: #7b8fa0; }
     .summary-card textarea {
       width: 100%;
       border: 1px solid #e2ded6;
-      border-radius: 6px;
-      background: #fff;
-      padding: 12px 14px;
+      border-radius: 10px;
+      padding: 10px;
       font-size: 13px;
       font-family: inherit;
-      color: var(--text);
       resize: vertical;
-      min-height: 100px;
+      min-height: 70px;
+      background: #fff;
       outline: none;
-      transition: var(--transition);
     }
     .summary-card textarea:focus {
       border-color: #b8c9d6;
-      box-shadow: 0 0 0 3px rgba(184,201,214,0.1);
     }
-
-    @media (max-width: 600px) {
-      .container { padding: 18px 12px 24px; }
-      .title { font-size: 20px; }
-      .project-name { font-size: 12px; min-width: 60px; }
-      .improvement-input { min-width: 70px; }
-      .date-picker-group { font-size: 13px; padding: 6px 10px; }
-    }
-
-    @media print {
-      body { background: #fff; padding: 0; }
-      .container { box-shadow: none; border: 1px solid #ddd; max-width: 100%; }
-      thead th { background: #444 !important; color: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .status-toggle { border: 1px solid #999; background: #fff !important; }
-      textarea, .improvement-input { border: 1px dashed #aaa !important; }
+    .summary-card textarea::placeholder {
+      color: #c5bfb5;
+      font-size: 12.5px;
     }
   </style>
 </head>
@@ -372,339 +216,291 @@
 <div class="container">
   <div class="header">
     <div class="title">📋 每日计划</div>
-    <div class="date-picker-group">
-      <label for="datePicker">📅</label>
+    <div class="date-row">
       <input type="date" id="datePicker">
       <button class="today-btn" id="todayBtn">今天</button>
     </div>
   </div>
 
-  <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th>时段</th>
-          <th>类型</th>
-          <th>📝 计划项目</th>
-          <th>✅ 项目总结 / 完成情况</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="morning-bg">
-          <td class="period-cell" rowspan="2">🌅<br>上午</td>
-          <td class="type-cell"><span class="tag tag-regular">常规项目</span></td>
-          <td class="regular-detail" colspan="2"><div class="project-list" id="morning-list"></div></td>
-        </tr>
-        <tr class="morning-bg period-divider">
-          <td class="type-cell"><span class="tag tag-extra">额外项目</span></td>
-          <td class="extra-content"><textarea class="extra-morning-text" placeholder="今日新增…" rows="2"></textarea></td>
-          <td class="extra-summary"><textarea class="extra-morning-summary" placeholder="完成情况…" rows="2"></textarea></td>
-        </tr>
-
-        <tr class="noon-bg period-divider">
-          <td class="period-cell" rowspan="2">☀️<br>中午</td>
-          <td class="type-cell"><span class="tag tag-regular">常规项目</span></td>
-          <td class="regular-detail" colspan="2"><div class="project-list" id="noon-list"></div></td>
-        </tr>
-        <tr class="noon-bg">
-          <td class="type-cell"><span class="tag tag-extra">额外项目</span></td>
-          <td class="extra-content"><textarea class="extra-noon-text" placeholder="今日新增…" rows="2"></textarea></td>
-          <td class="extra-summary"><textarea class="extra-noon-summary" placeholder="完成情况…" rows="2"></textarea></td>
-        </tr>
-
-        <tr class="afternoon-bg period-divider">
-          <td class="period-cell" rowspan="2">🌤️<br>下午</td>
-          <td class="type-cell"><span class="tag tag-regular">常规项目</span></td>
-          <td class="regular-detail" colspan="2"><div class="project-list" id="afternoon-list"></div></td>
-        </tr>
-        <tr class="afternoon-bg">
-          <td class="type-cell"><span class="tag tag-extra">额外项目</span></td>
-          <td class="extra-content"><textarea class="extra-afternoon-text" placeholder="今日新增…" rows="2"></textarea></td>
-          <td class="extra-summary"><textarea class="extra-afternoon-summary" placeholder="完成情况…" rows="2"></textarea></td>
-        </tr>
-
-        <tr class="evening-bg period-divider">
-          <td class="period-cell" rowspan="2">🌙<br>晚上</td>
-          <td class="type-cell"><span class="tag tag-regular">常规项目</span></td>
-          <td class="regular-detail" colspan="2"><div class="project-list" id="evening-list"></div></td>
-        </tr>
-        <tr class="evening-bg">
-          <td class="type-cell"><span class="tag tag-extra">额外项目</span></td>
-          <td class="extra-content"><textarea class="extra-evening-text" placeholder="今日新增…" rows="2"></textarea></td>
-          <td class="extra-summary"><textarea class="extra-evening-summary" placeholder="完成情况…" rows="2"></textarea></td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- 上午 -->
+  <div class="period-card" id="card-morning">
+    <div class="period-header"><span class="icon">🌅</span> 上午</div>
+    <div class="regular-list" id="morning-list"></div>
+    <div class="extra-item-row" style="padding:6px 10px 10px;">
+      <div class="extra-task-row">
+        <span style="font-weight:500;font-size:13px;white-space:nowrap;padding:4px;">额外</span>
+        <input class="extra-input extra-morning-text" placeholder="临时任务…">
+        <span class="status-btn extra-morning-check" style="font-size:16px;">❌</span>
+        <input class="improve-input extra-morning-improve" placeholder="备注…" style="flex:1;">
+      </div>
+    </div>
   </div>
 
-  <div class="bottom-section">
-    <div class="summary-card today-summary">
-      <h3><span class="divider-dot"></span> 📋 今日总体总结</h3>
-      <textarea id="overallSummary" placeholder="回顾今天的整体状态…" rows="4"></textarea>
+  <!-- 中午 -->
+  <div class="period-card" id="card-noon">
+    <div class="period-header"><span class="icon">☀️</span> 中午</div>
+    <div class="regular-list" id="noon-list"></div>
+    <div class="extra-item-row" style="padding:6px 10px 10px;">
+      <div class="extra-task-row">
+        <span style="font-weight:500;font-size:13px;white-space:nowrap;padding:4px;">额外</span>
+        <input class="extra-input extra-noon-text" placeholder="临时任务…">
+        <span class="status-btn extra-noon-check" style="font-size:16px;">❌</span>
+        <input class="improve-input extra-noon-improve" placeholder="备注…" style="flex:1;">
+      </div>
     </div>
-    <div class="summary-card tomorrow-plan">
-      <h3><span class="divider-dot"></span> 🔧 明天改进计划</h3>
-      <textarea id="tomorrowPlan" placeholder="基于今天总结，规划明日改进…" rows="4"></textarea>
+  </div>
+
+  <!-- 下午 -->
+  <div class="period-card" id="card-afternoon">
+    <div class="period-header"><span class="icon">🌤️</span> 下午</div>
+    <div class="regular-list" id="afternoon-list"></div>
+    <div class="extra-item-row" style="padding:6px 10px 10px;">
+      <div class="extra-task-row">
+        <span style="font-weight:500;font-size:13px;white-space:nowrap;padding:4px;">额外</span>
+        <input class="extra-input extra-afternoon-text" placeholder="临时任务…">
+        <span class="status-btn extra-afternoon-check" style="font-size:16px;">❌</span>
+        <input class="improve-input extra-afternoon-improve" placeholder="备注…" style="flex:1;">
+      </div>
+    </div>
+  </div>
+
+  <!-- 晚上 -->
+  <div class="period-card" id="card-evening">
+    <div class="period-header"><span class="icon">🌙</span> 晚上</div>
+    <div class="regular-list" id="evening-list"></div>
+    <div class="extra-item-row" style="padding:6px 10px 10px;">
+      <div class="extra-task-row">
+        <span style="font-weight:500;font-size:13px;white-space:nowrap;padding:4px;">额外</span>
+        <input class="extra-input extra-evening-text" placeholder="临时任务…">
+        <span class="status-btn extra-evening-check" style="font-size:16px;">❌</span>
+        <input class="improve-input extra-evening-improve" placeholder="备注…" style="flex:1;">
+      </div>
+    </div>
+  </div>
+
+  <!-- 总结区 -->
+  <div class="summary-section">
+    <div class="summary-card">
+      <h4>📋 今日总体总结</h4>
+      <textarea id="overallSummary" placeholder="今天整体状态、收获、困难…"></textarea>
+    </div>
+    <div class="summary-card">
+      <h4>🔧 明天改进计划</h4>
+      <textarea id="tomorrowPlan" placeholder="明天重点优化的地方…"></textarea>
     </div>
   </div>
 </div>
 
 <script>
   (function() {
-    // 定义常规项目列表
+    // 常规项目定义
     const regularItems = {
-      morning: ["早起", "早餐", "拖地", "洗衣服", "随机清洁", "猫猫清洁", "看财经内容", "吃水果", "写作9点起"],
-      noon: ["吃饭", "休息", "午睡"],
+      morning: ["7点早起", "早餐", "拖地", "洗衣服", "随机清洁", "猫猫清洁", "看财经内容", "写作9点起", "吃水果"],
+      noon: ["吃饭12点", "休息", "午睡13点"],
       afternoon: ["写作14点起", "做题1小时", "运动30分钟"],
       evening: ["晚饭17点", "洗澡19点", "修文", "看书30分钟", "写日记", "睡觉23点"]
     };
 
-    const STORAGE_KEY_PREFIX = 'dailyPlan_';
-
-    // DOM 元素
+    const STORAGE_KEY_PREFIX = 'mobilePlan_';
     const datePicker = document.getElementById('datePicker');
     const todayBtn = document.getElementById('todayBtn');
-    const morningList = document.getElementById('morning-list');
-    const noonList = document.getElementById('noon-list');
-    const afternoonList = document.getElementById('afternoon-list');
-    const eveningList = document.getElementById('evening-list');
     const overallSummary = document.getElementById('overallSummary');
     const tomorrowPlan = document.getElementById('tomorrowPlan');
 
-    // 额外项目的 textarea 类名
-    const extraTextSelectors = [
-      '.extra-morning-text', '.extra-noon-text', '.extra-afternoon-text', '.extra-evening-text'
-    ];
-    const extraSummarySelectors = [
-      '.extra-morning-summary', '.extra-noon-summary', '.extra-afternoon-summary', '.extra-evening-summary'
-    ];
+    // 创建常规任务行
+    function createTaskRow(taskName) {
+      const row = document.createElement('div');
+      row.className = 'task-row';
 
-    // 辅助函数：获取所有常规项目状态 (基于项目名称和时段)
-    function getProjectStatusElements() {
-      const containers = [morningList, noonList, afternoonList, eveningList];
-      const periodNames = ['morning', 'noon', 'afternoon', 'evening'];
-      const result = [];
-      containers.forEach((container, idx) => {
-        const items = container.querySelectorAll('.project-item');
-        items.forEach((item, itemIdx) => {
-          const nameEl = item.querySelector('.project-name');
-          const statusEl = item.querySelector('.status-toggle');
-          const improvementEl = item.querySelector('.improvement-input');
-          if (nameEl && statusEl && improvementEl) {
-            result.push({
-              period: periodNames[idx],
-              projectName: nameEl.textContent.trim(),
-              statusEl: statusEl,
-              improvementEl: improvementEl,
-              itemIdx: itemIdx
-            });
-          }
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'task-name';
+      nameSpan.textContent = taskName;
+
+      const statusBtn = document.createElement('span');
+      statusBtn.className = 'status-btn';
+      statusBtn.textContent = '❌';
+      statusBtn.setAttribute('role', 'checkbox');
+      statusBtn.setAttribute('aria-checked', 'false');
+      statusBtn.onclick = function(e) {
+        e.stopPropagation();
+        if (this.classList.contains('done')) {
+          this.classList.remove('done');
+          this.textContent = '❌';
+          this.setAttribute('aria-checked', 'false');
+        } else {
+          this.classList.add('done');
+          this.textContent = '✅';
+          this.setAttribute('aria-checked', 'true');
+        }
+        saveCurrentData();
+      };
+
+      const improveInput = document.createElement('input');
+      improveInput.type = 'text';
+      improveInput.className = 'improve-input';
+      improveInput.placeholder = '改进…';
+      improveInput.addEventListener('input', saveCurrentData);
+
+      row.appendChild(nameSpan);
+      row.appendChild(statusBtn);
+      row.appendChild(improveInput);
+      return row;
+    }
+
+    function renderAllLists() {
+      const periods = ['morning', 'noon', 'afternoon', 'evening'];
+      const containerIds = ['morning-list', 'noon-list', 'afternoon-list', 'evening-list'];
+      periods.forEach((period, idx) => {
+        const container = document.getElementById(containerIds[idx]);
+        container.innerHTML = '';
+        regularItems[period].forEach(task => {
+          container.appendChild(createTaskRow(task));
         });
       });
-      return result;
     }
 
-    // 获取当前日期字符串 YYYY-MM-DD
-    function getSelectedDate() {
-      return datePicker.value || new Date().toISOString().split('T')[0];
+    // 收集所有状态
+    function getAllTaskData() {
+      const data = { regular: {}, extra: {} };
+      // 常规项目
+      document.querySelectorAll('.regular-list .task-row').forEach(row => {
+        const name = row.querySelector('.task-name')?.textContent.trim();
+        const statusBtn = row.querySelector('.status-btn');
+        const improveInput = row.querySelector('.improve-input');
+        if (name && statusBtn && improveInput) {
+          data.regular[name] = {
+            done: statusBtn.classList.contains('done'),
+            improvement: improveInput.value
+          };
+        }
+      });
+      // 额外项目
+      const periods = ['morning', 'noon', 'afternoon', 'evening'];
+      periods.forEach(p => {
+        const textEl = document.querySelector(`.extra-${p}-text`);
+        const checkEl = document.querySelector(`.extra-${p}-check`);
+        const improveEl = document.querySelector(`.extra-${p}-improve`);
+        data.extra[p] = {
+          text: textEl?.value || '',
+          done: checkEl?.classList.contains('done') || false,
+          improvement: improveEl?.value || ''
+        };
+      });
+      data.overallSummary = overallSummary.value;
+      data.tomorrowPlan = tomorrowPlan.value;
+      return data;
     }
 
-    // 设置日期选择器为今天
+    function saveCurrentData() {
+      const date = datePicker.value;
+      if (!date) return;
+      const data = getAllTaskData();
+      localStorage.setItem(STORAGE_KEY_PREFIX + date, JSON.stringify(data));
+    }
+
+    function loadDataForDate(date) {
+      if (!date) return;
+      const raw = localStorage.getItem(STORAGE_KEY_PREFIX + date);
+      if (!raw) {
+        // 清空所有状态
+        document.querySelectorAll('.status-btn').forEach(btn => {
+          btn.classList.remove('done');
+          btn.textContent = '❌';
+          btn.setAttribute('aria-checked', 'false');
+        });
+        document.querySelectorAll('.improve-input, .extra-input').forEach(input => input.value = '');
+        overallSummary.value = '';
+        tomorrowPlan.value = '';
+        return;
+      }
+      const data = JSON.parse(raw);
+      // 恢复常规项目
+      document.querySelectorAll('.regular-list .task-row').forEach(row => {
+        const name = row.querySelector('.task-name')?.textContent.trim();
+        const statusBtn = row.querySelector('.status-btn');
+        const improveInput = row.querySelector('.improve-input');
+        if (name && data.regular && data.regular[name]) {
+          const saved = data.regular[name];
+          if (saved.done) {
+            statusBtn.classList.add('done');
+            statusBtn.textContent = '✅';
+            statusBtn.setAttribute('aria-checked', 'true');
+          } else {
+            statusBtn.classList.remove('done');
+            statusBtn.textContent = '❌';
+            statusBtn.setAttribute('aria-checked', 'false');
+          }
+          improveInput.value = saved.improvement || '';
+        } else {
+          if (statusBtn) statusBtn.classList.remove('done');
+          if (statusBtn) statusBtn.textContent = '❌';
+          if (improveInput) improveInput.value = '';
+        }
+      });
+      // 额外项目
+      const periods = ['morning', 'noon', 'afternoon', 'evening'];
+      periods.forEach(p => {
+        const textEl = document.querySelector(`.extra-${p}-text`);
+        const checkEl = document.querySelector(`.extra-${p}-check`);
+        const improveEl = document.querySelector(`.extra-${p}-improve`);
+        if (data.extra && data.extra[p]) {
+          if (textEl) textEl.value = data.extra[p].text || '';
+          if (checkEl) {
+            if (data.extra[p].done) {
+              checkEl.classList.add('done');
+              checkEl.textContent = '✅';
+            } else {
+              checkEl.classList.remove('done');
+              checkEl.textContent = '❌';
+            }
+          }
+          if (improveEl) improveEl.value = data.extra[p].improvement || '';
+        } else {
+          if (textEl) textEl.value = '';
+          if (checkEl) { checkEl.classList.remove('done'); checkEl.textContent = '❌'; }
+          if (improveEl) improveEl.value = '';
+        }
+      });
+      overallSummary.value = data.overallSummary || '';
+      tomorrowPlan.value = data.tomorrowPlan || '';
+    }
+
     function setToday() {
       const today = new Date().toISOString().split('T')[0];
       datePicker.value = today;
       loadDataForDate(today);
     }
 
-    // 保存当前页面数据到 localStorage
-    function saveCurrentData() {
-      const date = getSelectedDate();
-      if (!date) return;
-
-      const data = {
-        projects: {},
-        extraTexts: [],
-        extraSummaries: [],
-        overallSummary: overallSummary.value,
-        tomorrowPlan: tomorrowPlan.value
-      };
-
-      // 收集常规项目状态
-      const statusElements = getProjectStatusElements();
-      statusElements.forEach(item => {
-        const key = `${item.period}_${item.projectName}`;
-        data.projects[key] = {
-          done: item.statusEl.classList.contains('done'),
-          improvement: item.improvementEl.value
-        };
-      });
-
-      // 收集额外项目文本
-      extraTextSelectors.forEach(selector => {
-        const el = document.querySelector(selector);
-        data.extraTexts.push(el ? el.value : '');
-      });
-      extraSummarySelectors.forEach(selector => {
-        const el = document.querySelector(selector);
-        data.extraSummaries.push(el ? el.value : '');
-      });
-
-      localStorage.setItem(STORAGE_KEY_PREFIX + date, JSON.stringify(data));
-    }
-
-    // 加载指定日期的数据
-    function loadDataForDate(date) {
-      if (!date) return;
-      const raw = localStorage.getItem(STORAGE_KEY_PREFIX + date);
-      const data = raw ? JSON.parse(raw) : null;
-
-      // 重置常规项目状态
-      const statusElements = getProjectStatusElements();
-      statusElements.forEach(item => {
-        const key = `${item.period}_${item.projectName}`;
-        if (data && data.projects && data.projects[key]) {
-          const saved = data.projects[key];
-          if (saved.done) {
-            item.statusEl.classList.add('done');
-            item.statusEl.textContent = '✅';
-            item.statusEl.setAttribute('aria-checked', 'true');
+    // 绑定额外项目的保存监听
+    function bindExtraListeners() {
+      document.querySelectorAll('.extra-input, .extra-morning-improve, .extra-noon-improve, .extra-afternoon-improve, .extra-evening-improve')
+        .forEach(el => el.addEventListener('input', saveCurrentData));
+      document.querySelectorAll('[class*="extra-"][class*="-check"]').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          if (this.classList.contains('done')) {
+            this.classList.remove('done');
+            this.textContent = '❌';
           } else {
-            item.statusEl.classList.remove('done');
-            item.statusEl.textContent = '❌';
-            item.statusEl.setAttribute('aria-checked', 'false');
+            this.classList.add('done');
+            this.textContent = '✅';
           }
-          item.improvementEl.value = saved.improvement || '';
-        } else {
-          // 默认未完成状态
-          item.statusEl.classList.remove('done');
-          item.statusEl.textContent = '❌';
-          item.statusEl.setAttribute('aria-checked', 'false');
-          item.improvementEl.value = '';
-        }
-      });
-
-      // 加载额外项目
-      extraTextSelectors.forEach((selector, idx) => {
-        const el = document.querySelector(selector);
-        if (el) el.value = (data && data.extraTexts && data.extraTexts[idx]) || '';
-      });
-      extraSummarySelectors.forEach((selector, idx) => {
-        const el = document.querySelector(selector);
-        if (el) el.value = (data && data.extraSummaries && data.extraSummaries[idx]) || '';
-      });
-
-      // 加载总结
-      overallSummary.value = (data && data.overallSummary) || '';
-      tomorrowPlan.value = (data && data.tomorrowPlan) || '';
-    }
-
-    // 绑定自动保存事件 (输入变化时保存)
-    function bindAutoSave() {
-      // 监听所有常规项目的改进输入框变化
-      document.querySelectorAll('.improvement-input').forEach(input => {
-        input.addEventListener('input', saveCurrentData);
-      });
-
-      // 额外项目文本
-      [...extraTextSelectors, ...extraSummarySelectors].forEach(selector => {
-        document.querySelectorAll(selector).forEach(el => {
-          el.addEventListener('input', saveCurrentData);
-        });
-      });
-
-      // 总体总结和明天计划
-      overallSummary.addEventListener('input', saveCurrentData);
-      tomorrowPlan.addEventListener('input', saveCurrentData);
-
-      // 状态切换按钮 (点击时保存)
-      document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('status-toggle')) {
-          // 状态切换后保存 (稍等确保 class 已更新)
-          setTimeout(saveCurrentData, 10);
-        }
-      });
-    }
-
-    // 初始化项目列表 (静态生成，绑定状态切换)
-    function renderAllProjectLists() {
-      const periods = ['morning', 'noon', 'afternoon', 'evening'];
-      const containers = [morningList, noonList, afternoonList, eveningList];
-
-      periods.forEach((period, idx) => {
-        const container = containers[idx];
-        const items = regularItems[period];
-        container.innerHTML = '';
-        items.forEach(name => {
-          const itemDiv = document.createElement('div');
-          itemDiv.className = 'project-item';
-
-          const nameSpan = document.createElement('span');
-          nameSpan.className = 'project-name';
-          nameSpan.textContent = name;
-
-          const statusBtn = document.createElement('span');
-          statusBtn.className = 'status-toggle';
-          statusBtn.textContent = '❌';
-          statusBtn.setAttribute('role', 'checkbox');
-          statusBtn.setAttribute('aria-checked', 'false');
-          statusBtn.setAttribute('tabindex', '0');
-
-          statusBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const isDone = this.classList.contains('done');
-            if (isDone) {
-              this.classList.remove('done');
-              this.textContent = '❌';
-              this.setAttribute('aria-checked', 'false');
-            } else {
-              this.classList.add('done');
-              this.textContent = '✅';
-              this.setAttribute('aria-checked', 'true');
-            }
-          });
-
-          statusBtn.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              this.click();
-            }
-          });
-
-          const improvementInput = document.createElement('input');
-          improvementInput.type = 'text';
-          improvementInput.className = 'improvement-input';
-          improvementInput.placeholder = '改进…';
-
-          itemDiv.appendChild(nameSpan);
-          itemDiv.appendChild(statusBtn);
-          itemDiv.appendChild(improvementInput);
-          container.appendChild(itemDiv);
+          saveCurrentData();
         });
       });
     }
 
-    // 日期切换事件
     datePicker.addEventListener('change', function() {
-      const selectedDate = this.value;
-      if (selectedDate) {
-        loadDataForDate(selectedDate);
-      }
+      loadDataForDate(this.value);
     });
-
     todayBtn.addEventListener('click', setToday);
 
-    // 页面卸载前保存 (以防万一)
-    window.addEventListener('beforeunload', saveCurrentData);
+    overallSummary.addEventListener('input', saveCurrentData);
+    tomorrowPlan.addEventListener('input', saveCurrentData);
 
     // 初始化
-    function init() {
-      renderAllProjectLists();
-      bindAutoSave();
-      // 默认显示今天日期
-      setToday();
-    }
-
-    init();
+    renderAllLists();
+    bindExtraListeners();
+    setToday();
   })();
 </script>
 </body>
